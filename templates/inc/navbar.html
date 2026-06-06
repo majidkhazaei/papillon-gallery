@@ -1,0 +1,30 @@
+{% load static %}
+
+<nav class="navbar">
+    <div class="container">
+        <div class="navbar-content">
+
+            <!-- Logo -->
+            <a href="{% url 'home:home' %}" class="navbar-brand">
+                <i class="fas fa-store"></i>
+                فروشگاه
+            </a>
+
+            <!-- Simple Menu -->
+            <ul class="navbar-menu">
+                <li><a href="">خانه</a></li>
+            </ul>
+
+            <!-- Right Side (Minimal) -->
+            <div class="navbar-right">
+                <a href="#" class="nav-icon cart-icon" title="سبد خرید">
+                    <i class="fas fa-shopping-cart"></i>
+                </a>
+
+                <a href="#" class="nav-icon" title="حساب کاربری">
+                    <i class="fas fa-user"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>

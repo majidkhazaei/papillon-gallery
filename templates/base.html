@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}فروشگاه آنلاین{% endblock %}</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+    <!-- Navbar -->
+    {% include 'inc/navbar.html' %}
+
+    <!-- Messages -->
+    {% include 'inc/messages.html' %}
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>فروشگاه ما</h5>
+                    <p>بهترین محصولات با بهترین قیمت</p>
+                </div>
+                <div class="col-md-3">
+                    <h5>لینک‌ها</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'home:home' %}" class="text-light">صفحه اصلی</a></li>
+                        <li><a href="#" class="text-light">فروشگاه</a></li>
+                        <li><a href="#" class="text-light">سبد خرید</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5>ارتباط با ما</h5>
+                    <p>تلفن: ۰۲۱-۱۲۳۴۵۶۷۸</p>
+                    <p>ایمیل: info@yourstore.com</p>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="text-center">
+                <p class="mb-0">© ۱۴۰۵ - تمامی حقوق محفوظ است</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
