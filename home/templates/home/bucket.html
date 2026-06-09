@@ -33,7 +33,7 @@
                     <a href="#" class="action-link download-link">📥 دانلود</a>
                 </td>
                 <td>
-                    <a href="#" class="action-link delete-link">🗑️ حذف</a>
+                    <a href="{% url 'home:delete_obj_bucket' obj.Key %}" class="action-link delete-link">🗑️ حذف</a>
                 </td>
             </tr>
             {% endfor %}

@@ -5,7 +5,7 @@ import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'A.settings')
 celery_app = Celery('A')
 celery_app.config_from_object({
-    'broker_url': 'amqp://rabbitmq',
+    'broker_url': 'amqp://',
     'result_backend': 'rpc://',
     'task_serializer': 'json',
     'result_serializer': 'json',
