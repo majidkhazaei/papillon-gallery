@@ -27,7 +27,9 @@ media/
 # OS Files
 .DS_Store
 Thumbs.db
-
+celerybeat-schedule
+celerybeat-schedule-shm
+celerybeat-schedule-wal
 # Migrations 
 # */migrations/*.py
 # !*/migrations/__init__.py
