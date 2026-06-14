@@ -28,7 +28,7 @@
             <!-- Right Side (Minimal) -->
             <div class="navbar-right">
                 <a href="{% url 'orders:cart' %}" class="nav-icon cart-icon" title="سبد خرید">
-                    <i class="fas fa-shopping-cart"></i>
+                    <i class="fas fa-shopping-cart"></i> {{ cart|length }}
                 </a>
 
                 <a href="#" class="nav-icon" title="حساب کاربری">
