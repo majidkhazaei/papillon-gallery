@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 from pathlib import Path
-
+from decouple import config
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-+wi$5-&wu0omx)8ad$su9r(s(vf&^h%g-&@eta)9@^#-bbpf3('
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -158,3 +158,8 @@ STORAGES = {
         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"
     },
 }
+# ZARINPALL
+
+ZP_API_REQUEST = config('ZP_API_REQUEST')
+ZP_API_VERIFY = config('ZP_API_VERIFY')
+ZP_MERCHANT_ID = config('ZP_MERCHANT_ID')

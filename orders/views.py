@@ -5,6 +5,10 @@ from products.models import Product
 from .forms import CartAddForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Order, OrderItem
+import requests
+import json
+from django.conf import settings
+from django.contrib import messages
 
 
 class CartViev(View):
@@ -45,3 +49,50 @@ class OrderCreateView(LoginRequiredMixin, View):
             OrderItem.objects.create(order=order, product=item['product'], price=item['price'], quantity=item['quantity'])
         cart.clear()
         return redirect('orders:order_detail', order.id)
+
+
+class OrderPayView(LoginRequiredMixin, View):
+    def get(self, request, order_id):
+        order = get_object_or_404(Order, id=order_id)
+        request.session["order_pay"] = {"order_id": order.id}
+        zp_req_headers = {'accept': 'application/json', 'content-type': 'application/json'}
+        zp_req_data = {"merchant_id": settings.ZP_MERCHANT_ID,
+                       "amount": order.get_total_price(),
+                       "description": f"{order.user} - {order.updated}",
+                       "metadata": {"mobile": f"{request.user.phone_number}", "email": f"{request.user.email}"},
+                       "callback_url": "https://example.ir/orders/verify/"}
+        zp_req = requests.post(settings.ZP_API_REQUEST, data=json.dumps(zp_req_data), headers=zp_req_headers)
+
+        if zp_req.json()["data"]["code"] == 100:
+            zp_authority = zp_req.json()["data"]["authority"]
+            return redirect(f"https://payment.zarinpal.com/pg/StartPay/{zp_authority}")
+        else:
+            messages.error(request, "تراکنش ناموفق ", "danger")
+            return redirect("home:home")
+
+
+class OrderVerifyView(LoginRequiredMixin, View):
+    def get(self, request):
+        order_id = request.session['order_pay']['order_id']
+        order = get_object_or_404(Order, id=order_id)
+        zp_authority = request.GET.get("Authority")
+        zp_status = request.GET.get("Status")
+        if zp_status == "OK":
+            zp_req_headers = {'accept': 'application/json', 'content-type': 'application/json'}
+            zp_req_data = {"merchant_id": settings.ZP_MERCHANT_ID, "amount": order.get_total_price(),
+                           "authority": zp_authority}
+            zp_verity_req = requests.post(settings.ZP_API_VERIFY, data=json.dumps(zp_req_data), headers=zp_req_headers)
+
+            if len(zp_verity_req.json()["error"]) == 0 and zp_verity_req.json()["data"]["code"] == 100:
+                order.paid = True
+                order.save()
+                messages.success(request, "پرداخت با موفقیت انجام شد", "success")
+                return redirect("home:home")
+            else:
+                zp_error_code = zp_verity_req.json()["errors"]["code"]
+                zp_error_message = zp_verity_req.json()["errors"]["message"]
+                messages.error(request, f"Error {zp_error_code}, {zp_error_message}..!", "danger")
+                return redirect("home:home")
+        else:
+            messages.error(request, "تراکنش نا موفق", "danger")
+            return redirect("home:home")
