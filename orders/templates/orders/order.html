@@ -3,4 +3,10 @@
     <h3>ثبت نهایی</h3>
     <p>مجموع قیمت: {{ order.get_total_price }}</p>
     <a href="{% url 'orders:order_pay' order.id %}" class="btn-primary">پرداخت</a>
+
+    <form action="{% url 'orders:apply_coupon' order.id %}" method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="اعمال کد تخفیف">
+    </form>
 {% endblock %}
