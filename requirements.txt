@@ -1,7 +1,10 @@
 boto3==1.43.24
 celery==5.6.3
-git+https://github.com/django/django.git@6.0.6
-django_ckeditor==6.7.3
+Django==6.0.6
+django-celery-beat==2.9.0
+django-ckeditor==6.7.3
+django-storages==1.14.6
 kavenegar==1.1.2
+pillow==12.2.0
 python-decouple==3.8
-Requests==2.34.2
+requests==2.34.2
