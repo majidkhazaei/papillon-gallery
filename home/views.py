@@ -21,7 +21,12 @@ class ProductDetailView(View):
     def get(self, request, slug):
         product = get_object_or_404(Product, slug=slug)
         form = CartAddForm()
-        return render(request, 'home/product_detail.html', {'product': product, 'form': form})
+        variants = product.variants.all()
+        return render(request, 'home/product_detail.html', {
+            'product': product,
+            'form': form,
+            'variants': variants,
+        })
 
 
 class BucketHomeView(IsAdminMixin,View):

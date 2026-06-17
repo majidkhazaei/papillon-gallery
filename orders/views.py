@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect,get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from .cart import Cart
 from products.models import Product
@@ -12,7 +12,7 @@ from django.contrib import messages
 import datetime
 
 
-class CartViev(View):
+class CartView(View):
     def get(self, request):
         cart = Cart(request)
         return render(request, 'orders/cart.html', {'cart': cart})
@@ -24,7 +24,12 @@ class CartAddView(View):
         product = get_object_or_404(Product, id=product_id)
         form = CartAddForm(request.POST)
         if form.is_valid():
-            cart.add(product, form.cleaned_data['quantity'])
+            size = form.cleaned_data['size']
+            variant = product.variants.filter(size=size).first()
+            if not variant:
+                messages.error(request, 'سایز انتخاب شده نامعتبر است')
+                return redirect('orders:cart')
+            cart.add(product, form.cleaned_data['quantity'], size)
         return redirect('orders:cart')
 
 
@@ -48,7 +53,13 @@ class OrderCreateView(LoginRequiredMixin, View):
         cart = Cart(request)
         order = Order.objects.create(user=request.user)
         for item in cart:
-            OrderItem.objects.create(order=order, product=item['product'], price=item['price'], quantity=item['quantity'])
+            OrderItem.objects.create(
+                order=order,
+                product=item['product'],
+                size=item['size'],
+                price=item['price'],
+                quantity=item['quantity']
+            )
         cart.clear()
         return redirect('orders:order_detail', order.id)
 

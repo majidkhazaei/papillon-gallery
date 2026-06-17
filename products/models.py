@@ -40,3 +40,16 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse('home:product_detail', args=[self.slug])
 
+
+class ProductVariant(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='variants')
+    size = models.CharField(max_length=50)  
+    price = models.IntegerField()
+    available = models.BooleanField(default=True)
+    stock = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        unique_together = ('product', 'size')
+
+    def __str__(self):
+        return f"{self.product.name} - {self.size}"
