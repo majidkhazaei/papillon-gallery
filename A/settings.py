@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     # third-party apps
     'storages',
     'django_celery_beat',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -163,3 +164,10 @@ STORAGES = {
 ZP_API_REQUEST = config('ZP_API_REQUEST')
 ZP_API_VERIFY = config('ZP_API_VERIFY')
 ZP_MERCHANT_ID = config('ZP_MERCHANT_ID')
+
+#ckeditor
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar':'full'
+    }
+}
