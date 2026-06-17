@@ -23,6 +23,13 @@ jobs:
       run: |
         echo "SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}" >> $GITHUB_ENV
         echo "DEBUG=False" >> $GITHUB_ENV
+        echo "ARVAN_ACCESS_KEY=${{ secrets.ARVAN_ACCESS_KEY }}" >> $GITHUB_ENV
+        echo "ARVAN_SECRET_KEY=${{ secrets.ARVAN_SECRET_KEY }}" >> $GITHUB_ENV
+        echo "ARVAN_ENDPOINT=https://s3.ir-tbz-sh1.arvanstorage.ir" >> $GITHUB_ENV
+        echo "ARVAN_BUCKET=onlinshop" >> $GITHUB_ENV
+        echo "ZP_API_REQUEST=https://payment.zarinpal.com/pg/v4/payment/request.json" >> $GITHUB_ENV
+        echo "ZP_API_VERIFY=https://payment.zarinpal.com/pg/v4/payment/verify.json" >> $GITHUB_ENV
+        echo "ZP_MERCHANT_ID=${{ secrets.ZP_MERCHANT_ID }}" >> $GITHUB_ENV
 
     - name: Install dependencies
       run: |
