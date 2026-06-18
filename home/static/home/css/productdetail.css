@@ -1,0 +1,155 @@
+/* ===== PRODUCT DETAIL ===== */
+.product-detail {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+    background: #fff;
+    border-radius: 2rem;
+    padding: 2.5rem;
+    margin: 2rem 0;
+    box-shadow: 0 6px 30px rgba(0,0,0,0.04);
+    border: 1px solid #f0e8e8;
+}
+
+.product-detail-image {
+    flex: 1;
+    min-width: 280px;
+}
+.product-detail-image img {
+    width: 100%;
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 30px rgba(178, 34, 34, 0.1);
+    border: 3px solid #b22222;
+}
+
+.product-detail-info {
+    flex: 1.5;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+.product-detail-info h2 {
+    font-size: 2rem;
+    color: #2d1b1b;
+    border-right: 5px solid #b22222;
+    padding-right: 1rem;
+}
+.product-meta {
+    color: #6c5a5a;
+    font-size: 0.85rem;
+    background: #f5eded;
+    padding: 0.2rem 1rem;
+    border-radius: 2rem;
+    display: inline-block;
+    width: fit-content;
+}
+.product-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #b22222;
+    background: #fcf3f3;
+    padding: 0.3rem 1.2rem;
+    border-radius: 2rem;
+    display: inline-block;
+    width: fit-content;
+}
+.product-description {
+    color: #3a2a2a;
+    line-height: 1.9;
+    border-top: 1px solid #f0e8e8;
+    padding-top: 1rem;
+}
+
+/* ===== فرم و فیلدها ===== */
+.form-field {
+    margin-bottom: 1.2rem;
+}
+.form-field label {
+    display: block;
+    font-weight: 600;
+    color: #2d1b1b;
+    margin-bottom: 0.3rem;
+    font-size: 0.95rem;
+}
+
+/* استایل ورودی‌ها و کشویی */
+.form-field input,
+.form-field select {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border: 1px solid #e8d5d5;
+    border-radius: 2rem;
+    font-size: 0.95rem;
+    background: #fcf9f7;
+    transition: 0.3s;
+    font-family: inherit;
+}
+.form-field input:focus,
+.form-field select:focus {
+    border-color: #b22222;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(178, 34, 34, 0.1);
+}
+
+/* ===== استایل اختصاصی کشویی (select) ===== */
+.form-field select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 16 16' fill='%236c5a5a'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: left 1rem center;
+    padding-left: 2.8rem;
+    cursor: pointer;
+    color: #2d1b1b;
+}
+
+/* استایل گزینه‌های کشویی */
+.form-field select option {
+    padding: 0.5rem;
+    color: #2d1b1b;
+    background: #fff;
+}
+.form-field select option:disabled {
+    color: #a09090;
+}
+.form-field select option:hover {
+    background: #fcf3f3;
+}
+
+/* ===== دکمه افزودن به سبد خرید ===== */
+.product-detail-info input[type="submit"] {
+    background: #b22222;
+    color: #fff;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 2.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+    width: 100%;
+    box-shadow: 0 4px 15px rgba(178, 34, 34, 0.3);
+    margin-top: 0.5rem;
+}
+.product-detail-info input[type="submit"]:hover {
+    background: #8b1a1a;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(178, 34, 34, 0.4);
+}
+
+/* ===== واکنش‌گرایی ===== */
+@media (max-width: 768px) {
+    .product-detail {
+        padding: 1.5rem;
+        gap: 1.5rem;
+        flex-direction: column;
+    }
+    .product-detail-image {
+        min-width: auto;
+    }
+    .product-detail-image img {
+        width: 100%;
+        height: auto;
+    }
+}

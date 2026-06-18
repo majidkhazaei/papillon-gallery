@@ -10,32 +10,39 @@
 <div class="container">
     <div class="product-detail">
         <div class="product-detail-image">
-            <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width: 350px">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
         </div>
         <div class="product-detail-info">
             <h2>{{ product.name }}</h2>
             <div class="product-meta">📅 {{ product.created|timesince_fa }}</div>
-            <!-- قیمت پایه ممکن است نمایش داده نشود -->
             <div class="product-price">قیمت بر اساس سایز متغیر است</div>
             <div class="product-description">
                 <p>{{ product.description|safe|linebreaks }}</p>
             </div>
+
             <form action="{% url 'orders:cart_add' product.id %}" method="post">
                 {% csrf_token %}
-                <!-- انتخاب سایز -->
-                <div class="size-selection">
-                    <label for="id_size">سایز:</label>
+
+                <!-- فیلد تعداد -->
+                <div class="form-field">
+                    <label for="{{ form.quantity.id_for_label }}">تعداد</label>
+                    {{ form.quantity }}
+                </div>
+
+                <!-- فیلد سایز (کشویی) -->
+                <div class="form-field">
+                    <label for="id_size">سایز</label>
                     <select name="size" id="id_size" required>
+                        <option value="" disabled selected>— سایز مورد نظر را انتخاب کنید —</option>
                         {% for variant in variants %}
-                            <option value="{{ variant.size }}">{{ variant.size }} - {{ variant.price }} تومان</option>
+                            <option value="{{ variant.size }}">
+                                {{ variant.size }} — {{ variant.price }} تومان
+                            </option>
                         {% endfor %}
                     </select>
                 </div>
-                <!-- فیلد تعداد -->
-                <div class="quantity-field">
-                    {{ form.quantity.label_tag }} {{ form.quantity }}
-                </div>
-                <input type="submit" value="افزودن به سبد خرید">
+
+                <input type="submit" value="➕ افزودن به سبد خرید">
             </form>
         </div>
     </div>

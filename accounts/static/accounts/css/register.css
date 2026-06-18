@@ -1,115 +1,75 @@
-/* static/css/register.css */
-/* استایل‌های اختصاصی صفحه ثبت‌نام */
-
 .register-card {
-    background: #ffffff;
-    border-radius: 1.25rem;
-    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.02);
-    padding: 2rem 2rem 2.5rem;
-    max-width: 500px;
-    margin: 2rem auto;
+    max-width: 480px;
+    margin: 3rem auto;
+    background: #fff;
+    padding: 2.5rem;
+    border-radius: 2rem;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+    border: 1px solid #f0e8e8;
 }
 
 .register-card h2 {
     text-align: center;
+    color: #2d1b1b;
     font-size: 1.8rem;
-    color: #1e293b;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.3rem;
 }
-
 .register-card p {
     text-align: center;
-    color: #475569;
+    color: #6c5a5a;
     margin-bottom: 1.5rem;
 }
 
-/* فرم و فیلدها */
-.register-card form {
-    width: 100%;
-}
-
 .register-card form p {
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.2rem;
 }
-
 .register-card label {
     display: block;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-    color: #1e293b;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    color: #2d1b1b;
 }
-
 .register-card input:not([type="submit"]) {
     width: 100%;
-    padding: 0.8rem 1rem;
-    font-size: 1rem;
-    border: 1px solid #e2e8f0;
-    border-radius: 0.75rem;
-    background: #fefefe;
-    transition: all 0.2s ease;
-}
-
-.register-card input:focus {
-    outline: none;
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
-}
-
-/* فیلدهای خاص (ایمیل و تلفن) */
-.register-card input[type="email"],
-.register-card input[name="phone"] {
-    direction: ltr;
-    text-align: left;
-}
-
-/* دکمه ثبت‌نام */
-.register-card .btn-register {
-    background: #3b82f6;
-    color: white;
-    border: none;
-    padding: 0.85rem 1.5rem;
-    font-weight: 600;
+    padding: 0.7rem 1rem;
+    border: 1px solid #e8d5d5;
     border-radius: 2rem;
-    cursor: pointer;
+    font-size: 0.95rem;
+    background: #fcf9f7;
+    transition: 0.3s;
+}
+.register-card input:not([type="submit"]):focus {
+    border-color: #b22222;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(178, 34, 34, 0.1);
+}
+
+.btn-register {
     width: 100%;
+    background: #b22222;
+    color: #fff;
+    border: none;
+    padding: 0.8rem;
+    border-radius: 2.5rem;
+    font-weight: 600;
     font-size: 1rem;
-    transition: all 0.2s ease;
+    cursor: pointer;
+    transition: 0.3s;
     margin-top: 0.5rem;
+    box-shadow: 0 4px 15px rgba(178, 34, 34, 0.3);
 }
-
-.register-card .btn-register:hover {
-    background: #2563eb;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(59,130,246,0.3);
-}
-
-.register-card .btn-register:active {
-    transform: translateY(1px);
-}
-
-/* پیام‌های خطای Django */
-.register-card .errorlist {
-    list-style: none;
-    color: #dc2626;
-    font-size: 0.85rem;
-    margin-top: 0.3rem;
-    padding-right: 0;
+.btn-register:hover {
+    background: #8b1a1a;
+    transform: translateY(-2px);
 }
 
 .register-card .helptext {
-    font-size: 0.75rem;
-    color: #64748b;
-    display: block;
-    margin-top: 0.25rem;
+    font-size: 0.8rem;
+    color: #6c5a5a;
 }
-
-/* واکنش‌گرایی */
-@media (max-width: 640px) {
-    .register-card {
-        margin: 1rem;
-        padding: 1.5rem;
-    }
-    .register-card h2 {
-        font-size: 1.5rem;
-    }
+.register-card .errorlist {
+    color: #b22222;
+    font-size: 0.85rem;
+    padding-right: 0;
+    list-style: none;
 }

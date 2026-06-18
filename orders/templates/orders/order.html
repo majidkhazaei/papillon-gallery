@@ -1,12 +1,35 @@
 {% extends 'base.html' %}
-{% block content %}
-    <h3>ثبت نهایی</h3>
-    <p>مجموع قیمت: {{ order.get_total_price }}</p>
-    <a href="{% url 'orders:order_pay' order.id %}" class="btn-primary">پرداخت</a>
+{% load static %}
 
-    <form action="{% url 'orders:apply_coupon' order.id %}" method="POST">
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'orders/css/order.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="order-container">
+    <h3>ثبت نهایی سفارش</h3>
+
+    <div class="order-total">
+        <p>مجموع قیمت: <span>{{ order.get_total_price }}</span> تومان</p>
+    </div>
+
+    <a href="{% url 'orders:order_pay' order.id %}" class="btn-pay">
+        <i class="fas fa-credit-card"></i> پرداخت
+    </a>
+
+    <form action="{% url 'orders:apply_coupon' order.id %}" method="POST" class="coupon-form">
         {% csrf_token %}
-        {{ form }}
+        <div class="form-group">
+            <label for="{{ form.code.id_for_label }}">
+                <i class="fas fa-ticket-alt"></i> کد تخفیف:
+            </label>
+            {{ form.code }}
+        </div>
         <input type="submit" value="اعمال کد تخفیف">
     </form>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'orders/js/order.js' %}"></script>
 {% endblock %}

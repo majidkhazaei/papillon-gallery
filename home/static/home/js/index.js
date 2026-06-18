@@ -1,17 +1,12 @@
-// static/home/js/index.js
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
     const dropdowns = document.querySelectorAll('[data-dropdown]');
 
-    // بستن همه منوها
     function closeAllDropdowns(except = null) {
-        dropdowns.forEach(dropdown => {
-            if (except !== dropdown) {
-                dropdown.classList.remove('open');
-            }
+        dropdowns.forEach(d => {
+            if (except !== d) d.classList.remove('open');
         });
     }
 
-    // باز کردن یا بستن یک منو
     function toggleDropdown(dropdown) {
         if (dropdown.classList.contains('open')) {
             dropdown.classList.remove('open');
@@ -21,36 +16,19 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // اضافه کردن رویداد کلیک به دکمه هر dropdown
     dropdowns.forEach(dropdown => {
         const btn = dropdown.querySelector('[data-dropdown-btn]');
         if (btn) {
-            btn.addEventListener('click', function (e) {
+            btn.addEventListener('click', function(e) {
                 e.stopPropagation();
                 toggleDropdown(dropdown);
             });
         }
     });
 
-    // اگر بیرون از منو کلیک شود، همه را ببند
-    document.addEventListener('click', function (e) {
-        let isInside = false;
-        dropdowns.forEach(dropdown => {
-            if (dropdown.contains(e.target)) {
-                isInside = true;
-            }
-        });
-        if (!isInside) {
-            closeAllDropdowns();
-        }
-    });
-
-    // برای دسکتاپ، اگر هاور از روی منو رفت، آن را ببند (اختیاری)
-    dropdowns.forEach(dropdown => {
-        dropdown.addEventListener('mouseleave', function () {
-            if (window.innerWidth > 768) {
-                dropdown.classList.remove('open');
-            }
-        });
+    document.addEventListener('click', function(e) {
+        let inside = false;
+        dropdowns.forEach(d => { if (d.contains(e.target)) inside = true; });
+        if (!inside) closeAllDropdowns();
     });
 });

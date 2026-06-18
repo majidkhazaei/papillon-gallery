@@ -1,36 +1,30 @@
-/* ===================== index.css ===================== */
-/* بخش دسته‌بندی‌ها و منوی کشویی */
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
-}
-
-h1 {
-    margin: 1.5rem 0 0.5rem;
-    font-size: 1.8rem;
-    color: #0f172a;
-}
-
+/* ===== CATEGORIES ===== */
 .categories-section {
-    margin: 1.5rem 0 0.5rem;
-    border-bottom: 2px solid #e2e8f0;
-    padding-bottom: 0.75rem;
+    margin: 1.5rem 0 2rem;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
 }
 
 .categories-title {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #334155;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #3a1c1c;
     margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.categories-title::before {
+    content: '🎨';
+    font-size: 1.3rem;
 }
 
 .categories-wrapper {
     display: flex;
     flex-wrap: wrap;
     gap: 0.8rem;
-    margin-bottom: 1rem;
 }
 
 .custom-dropdown {
@@ -41,110 +35,102 @@ h1 {
 .dropdown-btn-group {
     display: flex;
     align-items: center;
-    background: #f1f5f9;
-    border-radius: 2rem;
-    border: 1px solid #e2e8f0;
-    transition: all 0.2s;
+    background: #f5eded;
+    border-radius: 2.5rem;
+    border: 1px solid #e8d5d5;
+    transition: all 0.3s;
     cursor: pointer;
 }
-
 .dropdown-btn-group:hover {
-    background: #3b82f6;
-    border-color: #3b82f6;
+    background: #b22222;
+    border-color: #b22222;
 }
 
 .btn-category-main {
-    padding: 0.5rem 1rem;
-    color: #1e293b;
-    text-decoration: none;
-    font-size: 0.85rem;
+    padding: 0.5rem 1.2rem;
+    color: #2d1b1b;
+    font-size: 0.9rem;
     font-weight: 500;
-    border-radius: 2rem 0 0 2rem;
-    transition: all 0.2s;
+    border-radius: 2.5rem 0 0 2.5rem;
+    transition: 0.3s;
 }
-
 .dropdown-btn-group:hover .btn-category-main {
-    color: white;
+    color: #fff;
 }
 
 .dropdown-arrow {
     padding: 0.5rem 0.7rem;
     font-size: 0.7rem;
-    color: #1e293b;
-    border-right: 1px solid #cbd5e1;
-    transition: all 0.2s;
+    color: #6c5a5a;
+    border-right: 1px solid #e8d5d5;
+    transition: 0.3s;
 }
-
 .dropdown-btn-group:hover .dropdown-arrow {
-    color: white;
-    border-right-color: #3b82f6;
+    color: #fff;
+    border-right-color: #b22222;
 }
 
 .dropdown-menu-custom {
     position: absolute;
     top: 110%;
     right: 0;
-    background: white;
-    min-width: 180px;
+    background: #fff;
+    min-width: 170px;
     border-radius: 1rem;
-    box-shadow: 0 12px 25px -8px rgba(0,0,0,0.15);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
     padding: 0.5rem 0;
-    list-style: none;
     opacity: 0;
     visibility: hidden;
     transform: translateY(-8px);
-    transition: all 0.2s ease;
-    z-index: 100;
-    border: 1px solid #e2e8f0;
+    transition: all 0.25s ease;
+    z-index: 200;
+    border: 1px solid #e8d5d5;
 }
-
 .custom-dropdown:hover .dropdown-menu-custom {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
 }
-
 .dropdown-menu-custom li a {
     display: block;
-    padding: 0.6rem 1rem;
-    color: #1e293b;
-    text-decoration: none;
+    padding: 0.5rem 1rem;
+    color: #2d1b1b;
     font-size: 0.85rem;
-    transition: all 0.2s;
-    text-align: right;
+    transition: 0.2s;
 }
-
 .dropdown-menu-custom li a:hover {
-    background: #eff6ff;
-    color: #3b82f6;
-    padding-right: 1.2rem;
+    background: #f5eded;
+    color: #b22222;
+    padding-right: 1.3rem;
 }
 
-/* محصولات (شبکه‌ای) */
+/* ===== PRODUCT GRID ===== */
 .products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 2rem;
-    padding: 2rem 0;
+    padding: 1.5rem 0;
 }
 
 .product-card {
-    background: #ffffff;
-    border-radius: 1rem;
+    background: #fff;
+    border-radius: 1.5rem;
     overflow: hidden;
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.04);
+    transition: all 0.35s ease;
+    border: 1px solid #f0e8e8;
 }
-
 .product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(178, 34, 34, 0.1);
+    border-color: #b22222;
 }
 
 .product-image {
     width: 100%;
-    height: 220px;
+    height: 240px;
     object-fit: cover;
+    border-bottom: 3px solid #b22222;
 }
 
 .product-info {
@@ -153,39 +139,43 @@ h1 {
 
 .product-name {
     font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
 }
-
 .product-name a {
-    color: #1e293b;
-    text-decoration: none;
+    color: #2d1b1b;
 }
-
 .product-name a:hover {
-    color: #3b82f6;
+    color: #b22222;
 }
 
 .product-price {
-    color: #3b82f6;
-    font-weight: 700;
-    font-size: 1.2rem;
     display: inline-block;
-    background: #eff6ff;
-    padding: 0.2rem 0.8rem;
+    background: #b22222;
+    color: #fff;
+    padding: 0.2rem 1rem;
     border-radius: 2rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    direction: ltr;
 }
 
 .no-products {
     text-align: center;
     padding: 3rem;
-    background: #f8fafc;
+    background: #f5eded;
     border-radius: 1rem;
-    color: #475569;
+    color: #6c5a5a;
 }
 
-/* ===== واکنش‌گرایی موبایل ===== */
 @media (max-width: 768px) {
+    .products-grid {
+        gap: 1rem;
+        padding: 1rem 0;
+    }
+    .product-image {
+        height: 180px;
+    }
     .categories-wrapper {
         flex-direction: column;
         align-items: stretch;
@@ -200,14 +190,14 @@ h1 {
         flex: 1;
         text-align: center;
     }
-    /* در موبایل منو با JS باز می‌شود، نه هاور */
     .dropdown-menu-custom {
         position: static;
         opacity: 1;
         visibility: visible;
         transform: none;
         box-shadow: none;
-        margin-top: 0.5rem;
+        border: none;
+        padding-right: 1rem;
         display: none;
     }
     .custom-dropdown.open .dropdown-menu-custom {
