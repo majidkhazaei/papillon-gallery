@@ -204,3 +204,118 @@
         display: block;
     }
 }
+/* ===== LIGHTBOX / IMAGE ZOOM MODAL ===== */
+.image-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.92);
+    justify-content: center;
+    align-items: center;
+    animation: modalFadeIn 0.3s ease;
+    cursor: zoom-out;
+    padding: 2rem;
+}
+
+.image-modal.active {
+    display: flex;
+}
+
+.image-modal img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    border-radius: 1.5rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    cursor: default;
+}
+
+/* دکمه بستن */
+.image-modal .close-modal {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    color: #fff;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    font-size: 1.8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+.image-modal .close-modal:hover {
+    background: #b22222;
+    transform: rotate(90deg);
+    border-color: #b22222;
+}
+
+/* اطلاعات محصول در مُدال (اختیاری) */
+.image-modal .modal-info {
+    position: absolute;
+    bottom: 3rem;
+    right: 3rem;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    padding: 0.8rem 1.5rem;
+    border-radius: 2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.image-modal .modal-info .name {
+    color: #fff;
+    font-weight: 700;
+}
+.image-modal .modal-info .price {
+    color: #ff6b6b;
+    margin-right: 0.8rem;
+}
+
+/* انیمیشن ورود */
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* واکنش‌گرایی */
+@media (max-width: 768px) {
+    .image-modal {
+        padding: 1rem;
+    }
+    .image-modal img {
+        max-width: 95%;
+        max-height: 85%;
+    }
+    .image-modal .close-modal {
+        top: 1rem;
+        left: 1rem;
+        width: 40px;
+        height: 40px;
+        font-size: 1.4rem;
+    }
+    .image-modal .modal-info {
+        bottom: 1.5rem;
+        right: 1.5rem;
+        font-size: 0.8rem;
+        padding: 0.5rem 1rem;
+    }
+}
