@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load extra_tags %}
 
 {% block extra_head %}
 <link rel="stylesheet" href="{% static 'home/css/productdetail.css' %}">
@@ -13,7 +14,7 @@
         </div>
         <div class="product-detail-info">
             <h2>{{ product.name }}</h2>
-            <div class="product-meta">📅 {{ product.created|date:"Y/m/d" }}</div>
+            <div class="product-meta">📅 {{ product.created|timesince_fa }}</div>
             <!-- قیمت پایه ممکن است نمایش داده نشود -->
             <div class="product-price">قیمت بر اساس سایز متغیر است</div>
             <div class="product-description">
