@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load extra_tags %}
 
 {% block extra_head %}
 <link rel="stylesheet" href="{% static 'home/css/bucket.css' %}">
@@ -19,6 +20,7 @@
                 <th>#</th>
                 <th>نام فایل</th>
                 <th>اندازه</th>
+                <th>آخرین تغییرات</th>
                 <th>دانلود</th>
                 <th>حذف</th>
             </tr>
@@ -29,6 +31,7 @@
                 <td>{{ forloop.counter }}</td>
                 <td>{{ obj.Key }}</td>
                 <td>{{ obj.Size|filesizeformat }}</td>
+                <th>{% convert_to_shamsi obj.LastModified %}</th>
                 <td>
                     <a href="{% url 'home:download_obj_bucket' obj.Key %}" class="action-link download-link">📥 دانلود</a>
                 </td>

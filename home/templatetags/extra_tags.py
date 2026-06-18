@@ -1,6 +1,6 @@
 from django import template
 from datetime import timezone, datetime
-
+import jdatetime
 
 
 register = template.Library()
@@ -27,3 +27,12 @@ def timesince_fa(dt, default='همین الان'):
         if period >= 1:
 	        return f"{period:.0f} {unit} قبل "
     return default
+
+@register.simple_tag
+def convert_to_shamsi(date):
+    shamsi = jdatetime.datetime.fromgregorian(date=date)
+    return shamsi.strftime("%d %B %Y, %H:%M:%S")
+
+@register.inclusion_tag("home/categories_inclusion.html")
+def load_categories(categories):
+	return {'categories':categories}

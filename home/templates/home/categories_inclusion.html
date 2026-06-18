@@ -1,0 +1,26 @@
+{% if categories %}
+    <div class="categories-section">
+        <div class="categories-title">دسته‌بندی‌ها</div>
+        <div class="categories-wrapper">
+            {% for category in categories %}
+            <div class="custom-dropdown" data-dropdown>
+                <div class="dropdown-btn-group" data-dropdown-btn>
+                    <a href="{{ category.get_absolute_url }}" class="btn-category-main">
+                        {{ category.name }}
+                    </a>
+                    {% if category.scategory.all %}
+                    <span class="dropdown-arrow">▼</span>
+                    {% endif %}
+                </div>
+                {% if category.scategory.all %}
+                <ul class="dropdown-menu-custom" data-dropdown-menu>
+                    {% for sub in category.scategory.all %}
+                    <li><a href="{{ sub.get_absolute_url }}">{{ sub.name }}</a></li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
