@@ -9,7 +9,10 @@ class Order(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     discount = models.IntegerField(blank=True, null=True, default=None)
-
+    address = models.TextField(verbose_name='آدرس کامل',blank=True, null=True,)
+    postal_code = models.CharField(max_length=20, blank=True, null=True, verbose_name='کد پستی')
+    receiver_name = models.CharField(max_length=100, verbose_name='نام گیرنده',blank=True, null=True)
+    receiver_phone = models.CharField(max_length=11, verbose_name='تلفن گیرنده',blank=True, null=True)
     class Meta:
         ordering = ('paid', '-updated')
 

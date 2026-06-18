@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from .cart import Cart
 from products.models import Product
-from .forms import CartAddForm, CouponApplyForm
+from .forms import CartAddForm, CouponApplyForm, AddressForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Order, OrderItem, Coupon
 import requests
@@ -43,9 +43,38 @@ class CartRemoveView(View):
 
 class OrderDetailView(LoginRequiredMixin, View):
     form_class = CouponApplyForm
+    address_form_class = AddressForm
+
     def get(self, request, order_id):
-        order = get_object_or_404(Order, id=order_id)
-        return render(request, 'orders/order.html', {'order': order, 'form': self.form_class})
+        order = get_object_or_404(Order, id=order_id, user=request.user)
+        form = self.form_class()
+        address_form = self.address_form_class()
+        return render(request, 'orders/order.html', {
+            'order': order,
+            'form': form,
+            'address_form': address_form,
+        })
+
+    def post(self, request, order_id):
+        order = get_object_or_404(Order, id=order_id, user=request.user)
+        address_form = self.address_form_class(request.POST)
+
+        if address_form.is_valid():
+            order.receiver_name = address_form.cleaned_data['receiver_name']
+            order.receiver_phone = address_form.cleaned_data['receiver_phone']
+            order.address = address_form.cleaned_data['address']
+            order.postal_code = address_form.cleaned_data.get('postal_code', '')
+            order.save()
+
+            messages.success(request, 'آدرس با موفقیت ثبت شد', 'success')
+            return redirect('orders:order_detail', order_id)
+        else:
+            form = self.form_class()
+            return render(request, 'orders/order.html', {
+                'order': order,
+                'form': form,
+                'address_form': address_form,
+            })
 
 
 class OrderCreateView(LoginRequiredMixin, View):
@@ -67,6 +96,10 @@ class OrderCreateView(LoginRequiredMixin, View):
 class OrderPayView(LoginRequiredMixin, View):
     def get(self, request, order_id):
         order = get_object_or_404(Order, id=order_id)
+        if not order.address:
+            messages.error(request, 'لطفاً ابتدا آدرس تحویل را ثبت کنید', 'danger')
+            return redirect('orders:order_detail', order_id)
+        
         request.session["order_pay"] = {"order_id": order.id}
         zp_req_headers = {'accept': 'application/json', 'content-type': 'application/json'}
         zp_req_data = {"merchant_id": settings.ZP_MERCHANT_ID,

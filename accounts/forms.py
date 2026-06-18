@@ -1,5 +1,5 @@
 from django import forms
-from .models import User, OtpCode
+from .models import User, OtpCode, UserProfile
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
@@ -67,8 +67,38 @@ class UserLoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput)
 
 
+class UserProfileForm(forms.ModelForm):
+    email = forms.EmailField(label='ایمیل')
+    full_name = forms.CharField(label='نام کامل')
 
+    class Meta:
+        model = UserProfile
+        fields = ['address',]
 
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.user:
+            self.fields['email'].initial = self.instance.user.email
+            self.fields['full_name'].initial = self.instance.user.full_name
 
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if self.user and self.user.email == email:
+            return email
+        if User.objects.filter(email=email).exclude(id=self.user.id).exists():
+            raise ValidationError('این ایمیل قبلاً ثبت شده است')
+        return email
 
+    def save(self, commit=True):
+        user = self.user
+        user.full_name = self.cleaned_data['full_name']
+        user.email = self.cleaned_data['email']
+        if commit:
+            user.save()
 
+        profile = super().save(commit=False)
+        profile.user = user
+        if commit:
+            profile.save()
+        return profile

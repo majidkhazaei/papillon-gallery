@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'accounts/css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <h2>پروفایل من</h2>
+
+    <!-- اطلاعات کاربری -->
+    <div class="user-info">
+        <p><strong>نام کامل:</strong> {{ user.full_name }}</p>
+        <p><strong>ایمیل:</strong> {{ user.email }}</p>
+        <p><strong>تلفن:</strong> {{ user.phone_number }}</p>
+    </div>
+
+    <!-- اطلاعات پروفایل -->
+    <div class="profile-info">
+        <p><strong>آدرس:</strong> {{ profile.address|default:"ثبت نشده" }}</p>
+    </div>
+
+    <a href="{% url 'accounts:profile_edit' %}" class="btn-edit-profile">✏️ ویرایش پروفایل</a>
+
+    <!-- لیست سفارشات -->
+    <div class="orders-list">
+        <h3>سفارشات من</h3>
+        {% if orders %}
+            <ul>
+            {% for order in orders %}
+                <li>
+                    <span>
+                        <span class="order-id">سفارش #{{ order.id }}</span>
+                        <span>تاریخ: {{ order.created|date:"Y/m/d" }}</span>
+                        <span>مبلغ: {{ order.get_total_price }} تومان</span>
+                    </span>
+                    {% if order.paid %}
+                        <span class="order-paid">✅ پرداخت شده</span>
+                    {% else %}
+                        <span class="order-unpaid">⏳ در انتظار پرداخت</span>
+                    {% endif %}
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <div class="no-orders">🛒 شما هنوز سفارشی ثبت نکرده‌اید.</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'accounts/js/profile.js' %}"></script>
+{% endblock %}

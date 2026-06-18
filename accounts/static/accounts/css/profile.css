@@ -1,0 +1,121 @@
+/* ===== PROFILE PAGE ===== */
+.profile-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    background: #fff;
+    padding: 2.5rem;
+    border-radius: 2rem;
+    box-shadow: 0 6px 30px rgba(0,0,0,0.04);
+    border: 1px solid #f0e8e8;
+}
+
+.profile-container h2 {
+    color: #2d1b1b;
+    font-size: 1.8rem;
+    border-right: 5px solid #b22222;
+    padding-right: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* بخش اطلاعات کاربری و پروفایل */
+.user-info, .profile-info {
+    background: #fcf9f7;
+    padding: 1rem 1.5rem;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+    border-right: 3px solid #b22222;
+}
+
+.user-info p, .profile-info p {
+    margin: 0.5rem 0;
+    color: #2d1b1b;
+}
+.user-info strong, .profile-info strong {
+    color: #1a0e0e;
+    display: inline-block;
+    min-width: 80px;
+}
+
+/* دکمه ویرایش پروفایل */
+.btn-edit-profile {
+    display: inline-block;
+    background: #b22222;
+    color: #fff;
+    padding: 0.6rem 1.8rem;
+    border-radius: 2.5rem;
+    font-weight: 600;
+    transition: 0.3s;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(178, 34, 34, 0.3);
+    margin: 0.5rem 0 1.5rem;
+}
+.btn-edit-profile:hover {
+    background: #8b1a1a;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(178, 34, 34, 0.4);
+}
+
+/* لیست سفارشات */
+.orders-list {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid #f0e8e8;
+}
+.orders-list h3 {
+    color: #2d1b1b;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+}
+.orders-list ul {
+    list-style: none;
+    padding: 0;
+}
+.orders-list ul li {
+    background: #fcf9f7;
+    padding: 0.8rem 1.2rem;
+    border-radius: 1rem;
+    margin-bottom: 0.5rem;
+    border-right: 3px solid #b22222;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+.orders-list ul li .order-id {
+    font-weight: 700;
+    color: #b22222;
+}
+.orders-list ul li .order-paid {
+    background: #28a745;
+    color: #fff;
+    padding: 0.2rem 0.8rem;
+    border-radius: 2rem;
+    font-size: 0.8rem;
+}
+.orders-list ul li .order-unpaid {
+    background: #6c5a5a;
+    color: #fff;
+    padding: 0.2rem 0.8rem;
+    border-radius: 2rem;
+    font-size: 0.8rem;
+}
+.no-orders {
+    text-align: center;
+    padding: 1.5rem;
+    color: #6c5a5a;
+    background: #f5eded;
+    border-radius: 1rem;
+}
+
+/* واکنش‌گرایی */
+@media (max-width: 640px) {
+    .profile-container {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+    .orders-list ul li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

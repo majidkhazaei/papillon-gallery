@@ -1,15 +1,16 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.views import View
-from .forms import UserRegistrationForm, VerifyCodeForm, UserLoginForm
+from .forms import UserRegistrationForm, VerifyCodeForm, UserLoginForm, UserProfileForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 import random
 from django.http import JsonResponse
-from .models import OtpCode, User
+from .models import OtpCode, User, UserProfile
 from django.utils import timezone
 from datetime import timedelta
 from . import tasks
+from orders.models import Order
 
 
 class UserRegisterView(View):
@@ -115,3 +116,40 @@ class UserLoginView(View):
                 return redirect('home:home')
             messages.error(request, 'invalid credentials', 'danger')
         return render(request, self.template_name, {'form': form})
+
+
+class UserProfileView(LoginRequiredMixin, View):
+    def get(self, request):
+        user = request.user
+        profile, created = UserProfile.objects.get_or_create(user=user)
+        orders = Order.objects.filter(user=user, paid=True).order_by('-created')
+
+        context = {
+            'user': user,
+            'profile': profile,
+            'orders': orders,
+        }
+        return render(request, 'accounts/profile.html', context)
+
+
+class ProfileEditView(LoginRequiredMixin, View):
+    def get(self, request):
+        profile, created = UserProfile.objects.get_or_create(user=request.user)
+        form = UserProfileForm(instance=profile, user=request.user)
+        return render(request, 'accounts/profile_edit.html', {'form': form})
+
+    def post(self, request):
+        profile, created = UserProfile.objects.get_or_create(user=request.user)
+        form = UserProfileForm(
+            request.POST,
+            request.FILES,
+            instance=profile,
+            user=request.user
+        )
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'اطلاعات شما با موفقیت به‌روز شد', 'success')
+            return redirect('accounts:profile')
+        else:
+            messages.error(request, 'خطا در ویرایش اطلاعات', 'danger')
+            return render(request, 'accounts/profile_edit.html', {'form': form})

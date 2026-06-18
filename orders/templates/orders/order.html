@@ -8,7 +8,38 @@
 {% block content %}
 <div class="order-container">
     <h3>ثبت نهایی سفارش</h3>
+<!-- بخش آدرس -->
+<div class="address-section">
+    <h3>آدرس تحویل سفارش</h3>
 
+    {% if order.address %}
+        <!-- آدرس ثبت شده -->
+        <div class="address-info">
+            <p><strong>نام گیرنده:</strong> {{ order.receiver_name }}</p>
+            <p><strong>تلفن گیرنده:</strong> {{ order.receiver_phone }}</p>
+            <p><strong>آدرس:</strong> {{ order.address }}</p>
+            {% if order.postal_code %}
+                <p><strong>کد پستی:</strong> {{ order.postal_code }}</p>
+            {% endif %}
+            <a href="{% url 'orders:order_detail' order.id %}" class="btn btn-sm btn-warning">ویرایش آدرس</a>
+        </div>
+    {% else %}
+        <!-- فرم ثبت آدرس -->
+        <form method="post">
+            {% csrf_token %}
+            {{ address_form.as_p }}
+            <button type="submit" class="btn btn-primary">ثبت آدرس</button>
+        </form>
+    {% endif %}
+</div>
+
+<!-- دکمه پرداخت (فقط در صورتی که آدرس ثبت شده باشه) -->
+{% if order.address %}
+    <a href="{% url 'orders:order_pay' order.id %}" class="btn btn-success">پرداخت</a>
+{% else %}
+    <p class="text-danger">لطفاً ابتدا آدرس را ثبت کنید</p>
+{% endif %}
+    
     <div class="order-total">
         <p>مجموع قیمت: <span>{{ order.get_total_price }}</span> تومان</p>
     </div>

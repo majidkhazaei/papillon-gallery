@@ -1,13 +1,12 @@
 /* ===== ORDER PAGE ===== */
 .order-container {
-    max-width: 600px;
+    max-width: 700px;
     margin: 3rem auto;
     background: #fff;
     padding: 2.5rem;
     border-radius: 2rem;
     box-shadow: 0 10px 40px rgba(0,0,0,0.04);
     border: 1px solid #f0e8e8;
-    text-align: center;
 }
 
 .order-container h3 {
@@ -28,6 +27,106 @@
     border-radius: 4px;
 }
 
+/* ===== بخش آدرس ===== */
+.address-section {
+    background: #fcf9f7;
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+    margin: 1.5rem 0;
+    border-right: 4px solid #b22222;
+}
+.address-section h3 {
+    font-size: 1.2rem;
+    color: #2d1b1b;
+    margin-bottom: 1rem;
+    border: none;
+}
+.address-section h3::after {
+    display: none;
+}
+
+.address-info p {
+    margin: 0.4rem 0;
+    color: #2d1b1b;
+}
+.address-info strong {
+    color: #1a0e0e;
+    display: inline-block;
+    min-width: 80px;
+}
+
+/* دکمه ویرایش آدرس */
+.btn-warning {
+    display: inline-block;
+    background: #c9a96e;
+    color: #1a0e0e;
+    padding: 0.3rem 1rem;
+    border-radius: 2rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.3s;
+    margin-top: 0.5rem;
+}
+.btn-warning:hover {
+    background: #b8975e;
+    transform: translateY(-2px);
+}
+
+/* ===== فرم آدرس ===== */
+.address-section form p {
+    margin-bottom: 1rem;
+}
+.address-section label {
+    display: block;
+    font-weight: 600;
+    color: #2d1b1b;
+    margin-bottom: 0.3rem;
+    font-size: 0.95rem;
+}
+.address-section input:not([type="submit"]),
+.address-section textarea,
+.address-section select {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border: 1px solid #e8d5d5;
+    border-radius: 2rem;
+    font-size: 0.95rem;
+    background: #fff;
+    transition: 0.3s;
+    font-family: inherit;
+}
+.address-section input:not([type="submit"]):focus,
+.address-section textarea:focus,
+.address-section select:focus {
+    border-color: #b22222;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(178, 34, 34, 0.1);
+}
+.address-section textarea {
+    resize: vertical;
+    min-height: 80px;
+    border-radius: 1.5rem;
+}
+
+.btn-primary {
+    background: #b22222;
+    color: #fff;
+    border: none;
+    padding: 0.7rem 2rem;
+    border-radius: 2.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 4px 15px rgba(178, 34, 34, 0.3);
+}
+.btn-primary:hover {
+    background: #8b1a1a;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(178, 34, 34, 0.4);
+}
+
+/* ===== جمع کل ===== */
 .order-total {
     background: #fcf3f3;
     padding: 1.2rem;
@@ -50,6 +149,7 @@
     margin-right: 0.5rem;
 }
 
+/* ===== دکمه پرداخت ===== */
 .btn-pay {
     display: inline-block;
     background: #b22222;
@@ -69,7 +169,18 @@
     box-shadow: 0 6px 20px rgba(178, 34, 34, 0.4);
 }
 
-/* فرم کد تخفیف */
+/* پیام هشدار در صورت نداشتن آدرس */
+.text-danger {
+    color: #b22222;
+    font-weight: 600;
+    padding: 0.5rem;
+    background: #fcf3f3;
+    border-radius: 2rem;
+    display: inline-block;
+    margin: 0.5rem 0;
+}
+
+/* ===== فرم کد تخفیف ===== */
 .coupon-form {
     display: flex;
     flex-wrap: wrap;
@@ -122,24 +233,7 @@
     transform: translateY(-2px);
 }
 
-/* پیام‌های موفقیت و خطا در همین صفحه */
-.order-message {
-    padding: 0.8rem 1.2rem;
-    border-radius: 1rem;
-    margin: 1rem 0;
-    border-right: 5px solid transparent;
-    background: #fcf9f7;
-}
-.order-message.success {
-    border-right-color: #28a745;
-    color: #155724;
-}
-.order-message.error {
-    border-right-color: #b22222;
-    color: #721c24;
-}
-
-/* واکنش‌گرایی */
+/* ===== واکنش‌گرایی ===== */
 @media (max-width: 640px) {
     .order-container {
         margin: 1.5rem 1rem;
@@ -154,5 +248,12 @@
     }
     .coupon-form input[type="submit"] {
         width: 100%;
+    }
+    .address-section {
+        padding: 1rem;
+    }
+    .btn-pay {
+        width: 100%;
+        text-align: center;
     }
 }
