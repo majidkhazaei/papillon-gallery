@@ -73,3 +73,70 @@
     padding-right: 0;
     list-style: none;
 }
+/* ===== RESET LINKS (در صفحه ورود) ===== */
+.reset-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid #f0e8e8;
+}
+
+.reset-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 2.5rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+/* لینک بازیابی با ایمیل */
+.reset-link.email-link {
+    background: #fcf3f3;
+    color: #b22222;
+    border: 2px solid #b22222;
+}
+.reset-link.email-link:hover {
+    background: #b22222;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(178, 34, 34, 0.3);
+}
+.reset-link.email-link i {
+    font-size: 1rem;
+}
+
+/* لینک بازیابی با پیامک */
+.reset-link.sms-link {
+    background: #f5eded;
+    color: #6c5a5a;
+    border: 2px solid #e8d5d5;
+}
+.reset-link.sms-link:hover {
+    background: #6c5a5a;
+    color: #fff;
+    border-color: #6c5a5a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(108, 90, 90, 0.3);
+}
+.reset-link.sms-link i {
+    font-size: 1rem;
+}
+
+/* واکنش‌گرایی */
+@media (max-width: 640px) {
+    .reset-links {
+        gap: 0.6rem;
+    }
+    .reset-link {
+        font-size: 0.85rem;
+        padding: 0.5rem 1rem;
+    }
+}

@@ -13,11 +13,17 @@
     <form action="" method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="login" class="btn-register">
-        <a href="{% url 'accounts:user_reset_password' %}" class="btn btn-info">فراموشی رمز عبور(بازیابی با ایمیل)</a>
-        <a href="{% url 'accounts:password_reset_sms' %}">بازیابی رمز با پیامک</a>
-    </form>
+        <input type="submit" value="ورود" class="btn-register">
 
+        <div class="reset-links">
+            <a href="{% url 'accounts:user_reset_password' %}" class="reset-link email-link">
+                <i class="fas fa-envelope"></i> فراموشی رمز عبور(بازیابی با ایمیل)
+            </a>
+            <a href="{% url 'accounts:password_reset_sms' %}" class="reset-link sms-link">
+                <i class="fas fa-phone"></i> فراموشی رمز عبور(بازیابی با پیامک)
+            </a>
+        </div>
+    </form>
 </div>
 
 <script src="{% static 'accounts/js/register.js' %}"></script>
