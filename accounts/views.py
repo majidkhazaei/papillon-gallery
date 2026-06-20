@@ -11,6 +11,8 @@ from django.utils import timezone
 from datetime import timedelta
 from . import tasks
 from orders.models import Order
+from django.contrib.auth import views as auth_views
+from django.urls import reverse_lazy
 
 
 class UserRegisterView(View):
@@ -153,3 +155,21 @@ class ProfileEditView(LoginRequiredMixin, View):
         else:
             messages.error(request, 'خطا در ویرایش اطلاعات', 'danger')
             return render(request, 'accounts/profile_edit.html', {'form': form})
+
+
+class UserPasswordResetView(auth_views.PasswordResetView):
+	template_name = "accounts/password_reset_form.html"
+	success_url = reverse_lazy("accounts:password_reset_done")
+	email_template_name = "accounts/password_reset_email.html"
+
+class UserPasswordResetDoneView(auth_views.PasswordResetDoneView):
+	template_name = "accounts/password_reset_done.html"
+
+
+class UserPasswordConfirmView(auth_views.PasswordResetConfirmView):
+    template_name = "accounts/password_reset_confirm.html"
+    success_url = reverse_lazy("accounts:password_reset_complete")
+
+
+class UserPasswordResetCompleteView(auth_views.PasswordResetCompleteView):
+    template_name = "accounts/password_reset_complete.html"

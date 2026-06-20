@@ -1,10 +1,11 @@
 from kavenegar import KavenegarAPI
 from django.contrib.auth.mixins import UserPassesTestMixin
+from decouple import config
 
 
 def send_otp_code(phone_number, code):
     try:
-        api = KavenegarAPI('Your API Key')
+        api = config('KavenegarAPI')
         params = {'sender': '2000660110', 'receptor': phone_number, 'message': f'your code: {code}'}
         response = api.sms_send(params)
         print(response)
