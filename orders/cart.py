@@ -40,11 +40,11 @@ class Cart:
         self.cart[key]['quantity'] += quantity
         self.save()
 
-    def remove(self, product):
-        keys_to_delete = [key for key in self.cart.keys() if key.startswith(f"{product.id}-")]
-        for key in keys_to_delete:
+    def remove(self, product, size):
+        key = f"{product.id}-{size}"
+        if key in self.cart:
             del self.cart[key]
-        self.save()
+            self.save()
 
     def save(self):
         self.session.modified = True
