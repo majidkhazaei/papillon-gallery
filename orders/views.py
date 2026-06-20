@@ -80,6 +80,11 @@ class OrderDetailView(LoginRequiredMixin, View):
 class OrderCreateView(LoginRequiredMixin, View):
     def get(self, request):
         cart = Cart(request)
+
+        if len(cart) == 0:
+            messages.error(request, 'سبد خرید شما خالی است! لطفاً ابتدا محصولی اضافه کنید.', 'danger')
+            return redirect('orders:cart')
+
         order = Order.objects.create(user=request.user)
         for item in cart:
             OrderItem.objects.create(
@@ -96,6 +101,11 @@ class OrderCreateView(LoginRequiredMixin, View):
 class OrderPayView(LoginRequiredMixin, View):
     def get(self, request, order_id):
         order = get_object_or_404(Order, id=order_id)
+
+        if order.get_total_price() <= 0:
+            messages.error(request, 'امکان پرداخت با مبلغ صفر وجود ندارد!', 'danger')
+            return redirect('orders:order_detail', order_id)
+
         if not order.address:
             messages.error(request, 'لطفاً ابتدا آدرس تحویل را ثبت کنید', 'danger')
             return redirect('orders:order_detail', order_id)

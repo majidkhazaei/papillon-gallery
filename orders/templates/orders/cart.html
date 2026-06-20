@@ -35,6 +35,12 @@
 
   </tbody>
 </table>
-<a href="{% url 'orders:order_create' %}">ثبت نهایی</a>
+{% if cart|length > 0 %}
+    <a href="{% url 'orders:order_create' %}" class="btn btn-success">
+        ثبت سفارش نهایی
+    </a>
+{% else %}
+    <p class="text-muted">سبد خرید شما خالی است!</p>
+{% endif %}
 <script src="{% static 'orders/js/cart.js' %}"></script>
 {% endblock %}
