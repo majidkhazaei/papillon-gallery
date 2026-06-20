@@ -10,6 +10,8 @@ import json
 from django.conf import settings
 from django.contrib import messages
 import datetime
+from django.utils import timezone
+from datetime import timedelta
 
 
 class CartView(View):
@@ -94,13 +96,21 @@ class OrderCreateView(LoginRequiredMixin, View):
                 price=item['price'],
                 quantity=item['quantity']
             )
-        cart.clear()
+        
         return redirect('orders:order_detail', order.id)
 
 
 class OrderPayView(LoginRequiredMixin, View):
     def get(self, request, order_id):
         order = get_object_or_404(Order, id=order_id)
+
+        time_limit = timezone.now() - timedelta(minutes=10)
+        if order.created < time_limit:
+            cart = Cart(request)
+            cart.clear()
+            messages.error(request, 'زمان مجاز برای پرداخت به پایان رسیده. لطفاً دوباره سفارش خود را ثبت کنید.',
+                           'danger')
+            return redirect('orders:cart')
 
         if order.get_total_price() <= 0:
             messages.error(request, 'امکان پرداخت با مبلغ صفر وجود ندارد!', 'danger')
@@ -142,6 +152,8 @@ class OrderVerifyView(LoginRequiredMixin, View):
             if len(zp_verity_req.json()["error"]) == 0 and zp_verity_req.json()["data"]["code"] == 100:
                 order.paid = True
                 order.save()
+                cart = Cart(request)
+                cart.clear()
                 messages.success(request, "پرداخت با موفقیت انجام شد", "success")
                 return redirect("home:home")
             else:

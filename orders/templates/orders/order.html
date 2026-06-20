@@ -43,7 +43,11 @@
     <div class="order-total">
         <p>مجموع قیمت: <span>{{ order.get_total_price }}</span> تومان</p>
     </div>
-
+    <div class="timer-section">
+        <p>⏳ زمان باقی‌مانده برای پرداخت:
+            <span id="order-timer" data-created="{{ order.created|date:'Y-m-d H:i:s' }}">10:00</span>
+        </p>
+    </div>
     <a href="{% url 'orders:order_pay' order.id %}" class="btn-pay">
         <i class="fas fa-credit-card"></i> پرداخت
     </a>
@@ -59,8 +63,12 @@
         <input type="submit" value="اعمال کد تخفیف">
     </form>
 </div>
+
+
+
 {% endblock %}
 
 {% block extra_scripts %}
 <script src="{% static 'orders/js/order.js' %}"></script>
+<script src="{% static 'orders/js/order_timer.js' %}"></script>
 {% endblock %}
