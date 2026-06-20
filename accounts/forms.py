@@ -36,10 +36,10 @@ class UserChangeForm(forms.ModelForm):
 
 
 class UserRegistrationForm(forms.Form):
-    email = forms.EmailField()
-    full_name = forms.CharField(label='Full Name')
-    phone = forms.CharField(max_length=11)
-    password = forms.CharField(widget=forms.PasswordInput)
+    email = forms.EmailField(required=False, label='ایمیل (اختیاری)')
+    full_name = forms.CharField(label='نام کامل')
+    phone = forms.CharField(max_length=11, label='شماره موبایل')
+    password = forms.CharField(widget=forms.PasswordInput, label='رمز عبور')
 
     def clean_phone(self):
         phone = self.cleaned_data['phone']
@@ -50,10 +50,10 @@ class UserRegistrationForm(forms.Form):
         return phone
 
     def clean_email(self):
-        email = self.cleaned_data['email']
-        user = User.objects.filter(email=email).exists()
-        if user:
-            raise ValidationError('This email already exists')
+        email = self.cleaned_data.get('email')
+        if email:
+            if User.objects.filter(email=email).exists():
+                raise ValidationError('این ایمیل قبلاً ثبت شده است')
         return email
 
 

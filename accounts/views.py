@@ -64,7 +64,7 @@ class UserRegistrationVerifyCodeView(View):
                     messages.error(request, 'this code is expired', 'danger')
                     return redirect('accounts:verify_code')
                 User.objects.create_user(
-                    user_session['phone_number'], user_session['email'],
+                    user_session['phone_number'], user_session.get('email', ''),
                     user_session['full_name'], user_session['password']
                 )
                 code_instance.delete()

@@ -5,13 +5,10 @@ class UserManager(BaseUserManager):
         if not phone_number:
             raise ValueError('Users must have a phone number')
 
-        if not email:
-            raise ValueError('Users must have a email')
-
         if not full_name:
             raise ValueError('Users must have a full name')
 
-        user = self.model(phone_number=phone_number, email=self.normalize_email(email), full_name=full_name)
+        user = self.model(phone_number=phone_number, email=self.normalize_email(email) if email else '', full_name=full_name)
         user.set_password(password)
         user.save(using=self._db)
         return user

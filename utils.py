@@ -5,8 +5,8 @@ from decouple import config
 
 def send_otp_code(phone_number, code):
     try:
-        api = KavenegarAPI (config('apikey'))
-        params = {'sender': '2000660110', 'receptor': phone_number, 'message': f'your code: {code}'}
+        api = KavenegarAPI(config('apikey'))
+        params = {'sender': '2000660110', 'receptor': phone_number, 'message': f'کد ثبت نام سایت پاپیون آرت گالری: {code}'}
         response = api.sms_send(params)
         print(response)
     except Exception as e:
