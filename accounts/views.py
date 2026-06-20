@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.views import View
-from .forms import UserRegistrationForm, VerifyCodeForm, UserLoginForm, UserProfileForm
+from .forms import UserRegistrationForm, VerifyCodeForm, UserLoginForm, UserProfileForm, PhoneNumberForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 import random
@@ -12,7 +12,12 @@ from datetime import timedelta
 from . import tasks
 from orders.models import Order
 from django.contrib.auth import views as auth_views
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
+from utils import send_reset_link_sms
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+from django.contrib.auth import get_user_model
 
 
 class UserRegisterView(View):
@@ -173,3 +178,38 @@ class UserPasswordConfirmView(auth_views.PasswordResetConfirmView):
 
 class UserPasswordResetCompleteView(auth_views.PasswordResetCompleteView):
     template_name = "accounts/password_reset_complete.html"
+
+
+User = get_user_model()
+
+class PasswordResetSMSView(View):
+    form_class = PhoneNumberForm
+    template_name = 'accounts/password_reset_sms_form.html'
+
+    def get(self, request):
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            phone = form.cleaned_data['phone']
+            try:
+                user = User.objects.get(phone_number=phone)
+            except User.DoesNotExist:
+                messages.error(request, 'کاربری با این شماره تلفن یافت نشد.', 'danger')
+                return render(request, self.template_name, {'form': form})
+
+
+            token = default_token_generator.make_token(user)
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            reset_link = request.build_absolute_uri(
+                reverse('accounts:password_reset_confirm', kwargs={'uidb64': uid, 'token': token})
+            )
+
+
+            send_reset_link_sms(phone, reset_link)
+
+            messages.success(request, 'لینک بازیابی رمز عبور برای شما ارسال شد.', 'success')
+            return redirect('accounts:password_reset_done')
+        return render(request, self.template_name, {'form': form})

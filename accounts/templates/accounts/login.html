@@ -15,6 +15,7 @@
         {{ form.as_p }}
         <input type="submit" value="login" class="btn-register">
         <a href="{% url 'accounts:user_reset_password' %}" class="btn btn-info">فراموشی رمز عبور(بازیابی با ایمیل)</a>
+        <a href="{% url 'accounts:password_reset_sms' %}">بازیابی رمز با پیامک</a>
     </form>
 
 </div>
