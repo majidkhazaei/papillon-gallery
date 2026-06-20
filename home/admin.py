@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+admin.site.site_header = "papillon art gallery"
+admin.site.site_title = "papillon art gallery"
+admin.site.index_title = "welcome to my gallery"
