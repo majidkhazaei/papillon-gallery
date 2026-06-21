@@ -182,3 +182,55 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+# logging
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{name} {levelname} {asctime} {module} {message}",
+            "style": "{",
+        },
+        "simple": {
+            "format": "{levelname} {message}",
+            "style": "{"
+        }
+    },
+    "handlers": {
+        "app_rotate": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": "logs/apps.log",
+            "maxBytes": 10 * 1024 * 1024,
+            "backupCount": 30,
+            "level": "DEBUG",
+            "formatter": "verbose",
+        },
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
+    },
+    "loggers": {
+        "accounts": {
+            "level": "INFO",
+            "handlers": ["app_rotate"],
+            "propagate": False,
+        },
+        "home": {
+            "level": "INFO",
+            "handlers": ["app_rotate"],
+            "propagate": False,
+        },
+        "orders": {
+            "level": "INFO",
+            "handlers": ["app_rotate"],
+            "propagate": False,
+        },
+        "products": {
+            "level": "INFO",
+            "handlers": ["app_rotate"],
+            "propagate": False,
+        },
+    }
+}
