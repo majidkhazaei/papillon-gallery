@@ -33,6 +33,7 @@ jobs:
         echo "EMAIL_HOST_PASSWORD=${{ secrets.EMAIL_HOST_PASSWORD }}" >> $GITHUB_ENV
         echo "EMAIL_HOST_USER=${{ secrets.EMAIL_HOST_USER }}" >> $GITHUB_ENV
         echo "apikey=${{ secrets.APIKEY }}" >> $GITHUB_ENV
+        echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> $GITHUB_ENV
 
     - name: Install dependencies
       run: |
