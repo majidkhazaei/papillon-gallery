@@ -5,6 +5,7 @@ from . import tasks
 from django.contrib import messages
 from utils import IsAdminMixin
 from orders.forms import CartAddForm
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 class HomeView(View):
@@ -14,7 +15,17 @@ class HomeView(View):
         if category_slug:
             category = Category.objects.get(slug=category_slug)
             products = products.filter(category=category)
-        return render(request, 'home/index.html', {'products': products, 'categories': categories})
+
+        paginator = Paginator(products, 9)
+        page = request.GET.get('page')
+        try:
+            products_page = paginator.page(page)
+        except PageNotAnInteger:
+            products_page = paginator.page(1)
+        except EmptyPage:
+            products_page = paginator.page(paginator.num_pages)
+
+        return render(request, 'home/index.html', {'products_page': products_page, 'categories': categories})
 
 
 class ProductDetailView(View):
