@@ -188,6 +188,13 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 # logging
+import os
+
+# Create logs directory if not exists
+LOG_DIR = os.path.join(BASE_DIR, 'logs')
+if not os.path.exists(LOG_DIR):
+    os.makedirs(LOG_DIR, exist_ok=True)
+    
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
