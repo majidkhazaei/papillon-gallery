@@ -34,6 +34,12 @@ jobs:
         echo "EMAIL_HOST_USER=${{ secrets.EMAIL_HOST_USER }}" >> $GITHUB_ENV
         echo "apikey=${{ secrets.APIKEY }}" >> $GITHUB_ENV
         echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> $GITHUB_ENV
+        echo "POSTGRES_DB=django_db" >> $GITHUB_ENV
+        echo "POSTGRES_USER=django_user" >> $GITHUB_ENV
+        echo "DB_HOST=db" >> $GITHUB_ENV
+        echo "DB_PORT=5432" >> $GITHUB_ENV
+        echo "REDIS_URL=redis://redis:6379/1" >> $GITHUB_ENV
+        echo "ALLOWED_HOSTS=localhost,127.0.0.1" >> $GITHUB_ENV
 
     - name: Install dependencies
       run: |

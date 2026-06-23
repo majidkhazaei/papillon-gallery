@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
 
 
 # Application definition
@@ -90,17 +90,17 @@ WSGI_APPLICATION = 'A.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'galleryshop',
-        'USER': 'postgres',
+        'NAME': config('POSTGRES_DB', default='django_db'),
+        'USER': config('POSTGRES_USER', default='django_user'),
         'PASSWORD': config('POSTGRES_PASSWORD'),
-        'HOST':'127.0.0.1',
+        'HOST': config('DB_HOST', default='db'),
         'PORT': '5432',
     }
 }
 CACHES = {
 	'default': {
 		'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-		'LOCATION': 'redis://127.0.0.1:6379'
+		'LOCATION': config('REDIS_URL', default='redis://redis:6379/1'),
 		}
 }
 SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
@@ -148,6 +148,7 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # ARVAN Cloud Object Storages
 from decouple import config
@@ -216,38 +217,34 @@ LOGGING = {
         }
     },
     "handlers": {
-        "app_rotate": {
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": "logs/apps.log",
-            "maxBytes": 10 * 1024 * 1024,
-            "backupCount": 30,
-            "level": "DEBUG",
-            "formatter": "verbose",
-        },
         "console": {
             "class": "logging.StreamHandler",
-            "formatter": "simple",
+            "formatter": "verbose",
         },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "WARNING",
     },
     "loggers": {
         "accounts": {
             "level": "INFO",
-            "handlers": ["app_rotate"],
+            "handlers": ["console"],
             "propagate": False,
         },
         "home": {
             "level": "INFO",
-            "handlers": ["app_rotate"],
+            "handlers": ["console"],
             "propagate": False,
         },
         "orders": {
             "level": "INFO",
-            "handlers": ["app_rotate"],
+            "handlers": ["console"],
             "propagate": False,
         },
         "products": {
             "level": "INFO",
-            "handlers": ["app_rotate"],
+            "handlers": ["console"],
             "propagate": False,
         },
     }

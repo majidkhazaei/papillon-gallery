@@ -31,3 +31,5 @@ celerybeat-schedule*
 # Migrations 
 # */migrations/*.py
 # !*/migrations/__init__.py
+# Static files
+staticfiles/

@@ -8,7 +8,16 @@ done
 
 echo "DB ready!"
 
-python manage.py migrate
+
+echo "Waiting for Redis..."
+while ! nc -z redis 6379; do
+  sleep 1
+done
+echo "Redis ready!"
+
+
+python manage.py migrate --noinput
 python manage.py collectstatic --noinput
 
-gunicorn config.wsgi:application --bind 0.0.0.0:8000
+
+gunicorn A.wsgi:application --bind 0.0.0.0:8000 --workers 3
