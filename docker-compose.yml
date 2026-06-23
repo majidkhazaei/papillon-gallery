@@ -1,4 +1,4 @@
-version: "3.9"
+
 
 services:
   web:
@@ -9,8 +9,10 @@ services:
     depends_on:
       - db
       - redis
+      - rabbitmq
     volumes:
       - static_volume:/app/staticfiles
+      - ./media:/app/media
     expose:
       - "8000"
 
@@ -32,6 +34,44 @@ services:
     volumes:
       - redis_data:/data
 
+  rabbitmq:
+    image: rabbitmq:3-alpine
+    restart: always
+    expose:
+      - "5672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-guest}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-guest}
+
+  celery-worker:
+    build: .
+    restart: always
+    command: celery -A A worker --loglevel=info
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+      - rabbitmq
+    volumes:
+      - ./media:/app/media
+
+  celery-beat:
+    build: .
+    restart: always
+    command: celery -A A beat --loglevel=info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+      - rabbitmq
+      - celery-worker
+    volumes:
+      - ./media:/app/media
+
   nginx:
     image: nginx:latest
     restart: always
@@ -47,4 +87,5 @@ services:
 volumes:
   postgres_data:
   redis_data:
+  rabbitmq_data:
   static_volume:
