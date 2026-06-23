@@ -3,51 +3,33 @@ version: "3.9"
 services:
   web:
     build: .
-    restart: always
     env_file:
       - .env
     depends_on:
       - db
-      - redis
-
     volumes:
-      - static_volume:/app/staticfiles
-
+      - .:/app
     expose:
       - "8000"
 
   db:
     image: postgres:15
-
     restart: always
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-django_db}
-      POSTGRES_USER: ${POSTGRES_USER:-django_user}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: django_db
+      POSTGRES_USER: django_user
+      POSTGRES_PASSWORD: django_pass
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  redis:
-    image: redis:7-alpine
-
-    restart: always
-    expose:
-      - "6379"
-    volumes:
-      - redis_data:/data
-
   nginx:
     image: nginx:latest
-
     ports:
       - "80:80"
     depends_on:
       - web
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - static_volume:/app/staticfiles
-      - ./media:/app/media
 
 volumes:
   postgres_data:
-  redis_data:
