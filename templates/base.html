@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}فروشگاه آنلاین{% endblock %}</title>
+    <title>{% block title %}papillongallery{% endblock %}</title>
 
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
@@ -32,20 +32,20 @@
             <div class="row">
                 <div class="col-md-6">
                     <h5>فروشگاه ما</h5>
-                    <p>بهترین محصولات با بهترین قیمت</p>
+                    <p>کیفیت در هنر اولویت ماست</p>
                 </div>
                 <div class="col-md-3">
                     <h5>لینک‌ها</h5>
                     <ul class="list-unstyled">
                         <li><a href="{% url 'home:home' %}" class="text-light">صفحه اصلی</a></li>
-                        <li><a href="#" class="text-light">فروشگاه</a></li>
-                        <li><a href="#" class="text-light">سبد خرید</a></li>
+
+                        <li><a href="{% url 'orders:cart' %}" class="text-light">سبد خرید</a></li>
                     </ul>
                 </div>
                 <div class="col-md-3">
                     <h5>ارتباط با ما</h5>
-                    <p>تلفن: ۰۲۱-۱۲۳۴۵۶۷۸</p>
-                    <p>ایمیل: info@yourstore.com</p>
+                    <p>تلفن: 09030545945</p>
+                    <p>ایمیل: majidtriste1@gmail.com</p>
                 </div>
             </div>
             <hr class="my-4">
