@@ -67,85 +67,142 @@ A full-featured e-commerce project built with Django. This project implements a 
 
 ---
 
-## 🚀 Installation & Setup
+# Installation & Setup (Docker-based)
 
+This project uses **Docker** and **Docker Compose** to run all services (web, database, cache, broker, workers, and reverse proxy). No need to install Python, PostgreSQL, Redis, or RabbitMQ on your host machine.
+
+---
+
+## Prerequisites
+
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/) (usually included with Docker Desktop)
+
+---
+
+## Quick Start (with Docker Compose)
+
+### 1. Clone the project
 ```bash
-# 1. Clone the project
 git clone <repository-url>
 cd A
+```
 
-# 2. Create a virtual environment
-python -m venv venv
-source venv/bin/activate   # Windows: venv\Scripts\activate
-
-# 3. Install dependencies
-pip install -r requirements.txt
-
-# 4. Set up the .env file (see section below)
+### 2. Environment variables
+Copy the example environment file and fill it with your own values:
+```bash
 cp .env.example .env
+```
+> **Important:** For production, set `DEBUG=False` and use strong passwords for `POSTGRES_PASSWORD`, `RABBITMQ_PASSWORD`, etc.
 
-# 5. Run migrations
-python manage.py makemigrations
-python manage.py migrate
+### 3. Build and start all services
+```bash
+docker compose up -d --build
+```
+This will start:
+- **web**: Django + Gunicorn (port 8000, exposed via Nginx)
+- **db**: PostgreSQL
+- **redis**: Cache & session store
+- **rabbitmq**: Celery broker
+- **celery-worker**: Celery worker for async tasks
+- **celery-beat**: Celery Beat for scheduled tasks
+- **nginx**: Reverse proxy (port 80)
 
-# 6. Create a superuser
-python manage.py createsuperuser
-
-# 7. Run the development server
-python manage.py runserver
+### 4. Apply database migrations
+```bash
+docker compose exec web python manage.py migrate
 ```
 
-### Running the Celery worker (in a separate terminal)
+### 5. Collect static files
+```bash
+docker compose exec web python manage.py collectstatic --noinput
+```
+
+### 6. Create a superuser (admin)
+```bash
+docker compose exec web python manage.py createsuperuser
+```
+
+### 7. Access the application
+- Open `http://localhost` in your browser.
+- Admin panel: `http://localhost/admin`
+
+---
+
+## Development mode (live reload)
+
+If you want to see code changes without restarting containers, you can run the development server inside the container:
 
 ```bash
-celery -A A worker -l info
+# Stop the production web service
+docker compose stop web
+
+# Run Django's runserver with live reload
+docker compose run --service-ports web python manage.py runserver 0.0.0.0:8000
 ```
 
-### Running Redis and RabbitMQ (if not installed system-wide)
+Now changes to Python, HTML, and static files will be applied immediately.  
+To go back to production mode, just run `docker compose start web`.
 
+---
+
+## Useful commands
+
+| Task | Command |
+|------|---------|
+| Start all services | `docker compose up -d` |
+| Stop all services | `docker compose down` |
+| Restart a specific service | `docker compose restart web` |
+| View logs (all services) | `docker compose logs -f` |
+| View logs for a specific service | `docker compose logs -f web` |
+| Run Django management commands | `docker compose exec web python manage.py <command>` |
+| Run Celery commands (if needed) | `docker compose exec celery-worker celery -A A <command>` |
+
+---
+
+## Production deployment
+
+For production, make sure your `.env` contains:
+- `DEBUG=False`
+- `ALLOWED_HOSTS=yourdomain.com,www.yourdomain.com`
+- Strong passwords for all secrets
+- Real credentials for third-party services (Arvan, Zarinpal, Email, etc.)
+
+Then on your VPS, just run:
 ```bash
-docker run -d -p 6379:6379 redis
-docker run -d -p 5672:5672 rabbitmq
+docker compose up -d --build
 ```
+
+---
+
+## (Optional) Running without Docker
+
+If you prefer to run everything locally without Docker, you will need to install and configure:
+- Python 3.12 + virtualenv
+- PostgreSQL
+- Redis
+- RabbitMQ
+- Celery
+
+Then follow the classic Django setup (see the legacy instructions in the repository history). However, **Docker is the recommended and supported way** for both development and production.
 
 ---
 
 ## 🔑 Environment Variables
 
-Create a `.env` file in the project root with the following values:
+This project uses environment variables for all sensitive and configuration settings.
 
-```env
-# Django
-SECRET_KEY=your-secret-key
-DEBUG=True
+A template file named `.env.example` is provided in the project root. To get started:
 
-# PostgreSQL
-DB_NAME=galleryshop
-DB_USER=postgres
-DB_PASSWORD=your-db-password
-DB_HOST=127.0.0.1
-DB_PORT=5432
-
-# Email (Gmail App Password)
-EMAIL_HOST_USER=your-email@gmail.com
-EMAIL_HOST_PASSWORD=your-app-password
-
-# Arvan Cloud Object Storage
-ARVAN_ACCESS_KEY=your-access-key
-ARVAN_SECRET_KEY=your-secret-key
-ARVAN_ENDPOINT=https://your-endpoint.arvancloud.com
-ARVAN_BUCKET=your-bucket-name
-
-# ZarinPal
-ZP_MERCHANT_ID=your-merchant-id
-
-# Kavenegar (SMS)
-KAVENEGAR_API_KEY=your-api-key
+```bash
+cp .env.example .env
 ```
 
-> ⚠️ The `.env` file should never be committed — make sure it's listed in `.gitignore`.
+Then open `.env` and fill in all the required values (API keys, passwords, database credentials, etc.).
 
----
+> ⚠️ **Important:** The `.env` file contains secrets and should **never** be committed to version control. It is already ignored via `.gitignore`.
+
+For a complete list of available variables, refer to the `.env.example` file itself — it includes comments explaining each setting.
 
 ## 📁 Project Structure
 
@@ -174,13 +231,13 @@ A/
 │   └── context_processors.py  # Site-wide cart access
 │
 ├── home/                      # Homepage and cloud bucket
-│   ├── bucket.py               # Object storage management
 │   ├── tasks.py                 # Upload/download/delete file tasks
 │   └── templatetags/extra_tags.py  # Custom filters and tags
 │
 ├── utils.py                   # Shared utilities (IsAdminMixin)
 ├── aws/                        # Files downloaded from the bucket (local)
 └── manage.py
+├── bucket.py               # Object storage management
 ```
 
 ---
@@ -224,4 +281,5 @@ python manage.py remove_expired_otps
 
 ## 📄 License
 
-This project was built for personal learning purposes.
+This project is licensed under the MIT License.  
+See the [LICENSE](LICENSE) file for more details.
