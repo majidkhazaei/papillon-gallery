@@ -216,7 +216,6 @@ A/
 ├── accounts/                # Authentication and users
 │   ├── models.py            # User, OtpCode, Avatar, Coupon
 │   ├── managers.py          # UserManager
-│   ├── validators.py        # Avatar upload validation
 │   ├── tasks.py             # Celery tasks (OTP sending)
 │   └── management/commands/ # Custom management commands
 │       └── remove_expired_otps.py
