@@ -12,5 +12,5 @@ celery_app.config_from_object({
     'accept_content': ['json'],
     'result_expires': timedelta(days=1),
     'worker_prefetch_multiplier': 1,
-    'task_always_eager': True,
+    'task_always_eager': False,
 })
